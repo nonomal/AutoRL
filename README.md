@@ -2,11 +2,11 @@
 
 This is a PoC of automatically block traffic on Cloudflare's side based on Nginx Log parsing.
 
-It will evaluate Nginx access.log and find potential CC pattern, and block them on Cloudflare's side and send a message to Telegram Group.
+It will evaluate Nginx `access.log` and find potential CC pattern, and block them on Cloudflare's side and send a message(alert) to Telegram Group.
 
 ## Topology
 
-With Cloudflare Argo Tunnel, we can set security group to allow inbound traffic for SSH only, this can guarantee the Host's IP will not be exposed to the Internet (ref: [使用 Cloudflare Argo Tunnel(cloudflared) 来加速和保护你的网站](https://nova.moe/accelerate-and-secure-with-cloudflared/)), however, attackers can still CC your website by sending enormous requests cocurrently, AutoRL is here trying to mitigate this problem.
+With Cloudflare Argo Tunnel, we can set security group to allow inbound traffic for SSH only, this can guarantee the Host's IP will not be exposed to the Internet (ref: [Use Cloudflare Argo Tunnel (cloudflared) to accelerate and protect your website.](https://nova.moe/accelerate-and-secure-with-cloudflared-en/)), however, attackers can still CC your website by sending enormous requests cocurrently, AutoRL is here trying to mitigate this problem.
 
 ![](./AutoRL.png)
 
@@ -40,8 +40,8 @@ Since this is only a PoC, the following condition must be met to use AutoRL.
     * ACCESS_LOG_PATH (Default is `/var/log/nginx/access.log`)
     * INTERVAL_MIN (Default is 1, then this script will evaluate for 1min's traffic)
     * RATE_PER_MINUTE (How many requests are allowed for single IP, e,g, when this is set to 600 and `INTERVAL_MIN` is 1, then one IP can send at most 600 requests, after that, this IP will be blocked.)
-    * TG_CHAT_ID (Your Telegram Chat Group ID)
-    * TG_BOT_TOKEN (You should invite a bot to your group, and fillin the bot token here)
+    * TG_CHAT_ID (Your Telegram Chat Group ID, optional)
+    * TG_BOT_TOKEN (You should invite a bot to your group, and fillin the bot token here, optional)
     * IP_WHITE_LIST (If you'd like to whitelist some IP, fillin here)
 3. Create a crontab for this script, example:
     ```
@@ -57,6 +57,7 @@ On Telegram side:
 On Cloudflare side:
 
 ![](./demo-cf.png)
+
 ## Notes
 
 * Blocked IP address will never gets unblocked.

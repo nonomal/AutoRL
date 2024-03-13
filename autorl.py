@@ -126,4 +126,5 @@ if __name__ == '__main__':
     for i in range(len(bad_ip_list)):
         msg = "On Host: " + socket.gethostname() + ", with IP " + bad_ip_list[i] + " has accessed domain " + str(bad_ip_visited_top_domain[i]) + " for " + str(bad_ip_visit_count[i]) + " times in the last " + str(INTERVAL_MIN) + " minutes, now blocked."
         add_ip_to_block_rule(bad_ip_list[i], bad_ip_visited_top_domain[i])
-        send_message_to_telegram(TG_CHAT_ID, msg)
+        if TG_CHAT_ID != "":
+            send_message_to_telegram(TG_CHAT_ID, msg)
